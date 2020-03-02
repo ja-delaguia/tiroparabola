@@ -10,14 +10,14 @@ package modelo;
  * @author DAW207
  */
 public class Cuota {
-    private int numeroCuota;
-    private double importeCuota;
-    private double capital;
-    private double intereses;
+   public int numeroCuota;
+   public double importe;
+   public double capital;
+   public double intereses;
 
-    public Cuota(int numeroCuota, double importeCuota, double capital, double intereses) {
+    public Cuota(int numeroCuota, double importe, double capital, double intereses) {
         this.numeroCuota = numeroCuota;
-        this.importeCuota = importeCuota;
+        this.importe = importe;
         this.capital = capital;
         this.intereses = intereses;
     }
@@ -26,8 +26,13 @@ public class Cuota {
         return numeroCuota;
     }
 
-    public double getImporteCuota() {
-        return importeCuota;
+    public String getCapitalString() {
+        return String.format("%.2f", capital);
+       
+    }
+    
+    public double getImporte() {
+        return importe;
     }
 
     public double getCapital() {
@@ -37,6 +42,7 @@ public class Cuota {
     public double getIntereses() {
         return intereses;
     }
-    
+   
+   
     
 }

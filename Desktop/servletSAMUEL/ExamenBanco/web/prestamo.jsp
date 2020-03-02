@@ -4,6 +4,7 @@
     Author     : DAW207
 --%>
 
+<%@page import="modelo.Cuota"%>
 <%@page import="modelo.Prestamo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -20,11 +21,11 @@
         String nombre = ( String ) request.getAttribute("nombre");
        if ( nombre==null ) { nombre=""; }
         Prestamo  miPrestamo = ( Prestamo ) request.getAttribute("prestamo");
-        String importeTotal, cantidad, interes, tiempo;
+        String importePrestamo, cantidad, interes, tiempo;
         if ( miPrestamo==null) {
-            importeTotal="0"; cantidad = "0"; interes="0";tiempo="12";
+            importePrestamo=""; cantidad = "0"; interes="0";tiempo="12";
         } else {
-            importeTotal = String.valueOf(miPrestamo.getImporteTotal());
+            importePrestamo = String.valueOf(miPrestamo.getImporteTotal());
             cantidad = String.valueOf(miPrestamo.getCapital());
             interes = String.valueOf(miPrestamo.getInteres());
             tiempo = String.valueOf(miPrestamo.getTiempo());
@@ -47,9 +48,25 @@
                        <% } %>     
                      </select>
             <input type="submit" value="Consultar">
-           <% if ( importeTotal!="" ) { %>
-                    <h1>ImporteTotalPrestamo: <%=importeTotal %></h1>
+            <% if ( importePrestamo!="" ) { %>
+                    <h1>ImporteTotalPrestamo: <%=importePrestamo %></h1>
            <% }%>
+           <table border="3">
+           <% ArrayList<Cuota> cuotas = (ArrayList<Cuota>) request.getAttribute("cuotas");
+           if (cuotas!=null) { %>
+           <tr><th>NºCuota</th><th>Importe</th><th>Capital</th><th>Interés</th>
+               
+            <%
+               for (int i=0; i<cuotas.size(); i++){
+               Cuota miscuotas = cuotas.get(i);  
+               
+               %>
+              
+               <tr><td><%=cuotas.get(i).numeroCuota  %></td><td><%=cuotas.get(i).importe  %></td><td><%=cuotas.get(i).getCapitalString()  %></td><td><%=cuotas.get(i).intereses  %></td>
+              <% }
+           }
+           %>
+           </table>
         </form>
     </body>
 </html>
