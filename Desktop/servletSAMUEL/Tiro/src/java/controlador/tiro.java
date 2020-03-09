@@ -5,13 +5,16 @@
  */
 package controlador;
 
+import modelo.Utilidades;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Tiro;
 
 /**
  *
@@ -37,7 +40,7 @@ public class tiro extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet tiro</title>");            
+            out.println("<title>Servlet tiro</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet tiro at " + request.getContextPath() + "</h1>");
@@ -58,7 +61,9 @@ public class tiro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ArrayList<String> angulo = Utilidades.getAngulo();
+        request.setAttribute("angulo", angulo);
+        request.getRequestDispatcher("tiro.jsp").forward(request, response);
     }
 
     /**
@@ -72,7 +77,15 @@ public class tiro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String velocidad = request.getParameter("velocidad");
+        String angulo = request.getParameter("angulo");
+        double velocidadInit = Integer.parseInt(velocidad);
+        int anguloInit = Integer.parseInt(angulo);
+        Tiro miTiro = new Tiro(velocidadInit, anguloInit);
+        ArrayList<String> angu = Utilidades.getAngulo();
+        request.setAttribute("angulo", angu);
+        request.setAttribute("tiro", miTiro);
+        request.getRequestDispatcher("tiro.jsp").forward(request, response);
     }
 
     /**

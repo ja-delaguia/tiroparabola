@@ -4,7 +4,7 @@
     Author     : DAW207
 --%>
 
-<%@page import="modelo.tiro"%>
+<%@page import="modelo.Tiro"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,36 +14,45 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Tiro Parabolico</h1>
+        <h1>Tiro Parabólico</h1>
+        <%
+            String velocidad, angulos, distancia, alturaMax;
+            ArrayList<String> angulo = (ArrayList<String>) request.getAttribute("angulos");
+            Tiro mitiro = (Tiro) request.getAttribute("tiro");
+            
+            if(mitiro != null){
+                velocidad = String.valueOf(mitiro.getVelocidadInicial());
+                angulos = String.valueOf(mitiro.getAngulo());
+                distancia = String.valueOf(mitiro.getAlcanceMaximo());
+                alturaMax = String.valueOf(mitiro.getAlturaMaxima());
+            }
+            else{
+                velocidad = "";
+                angulos = "";
+                distancia = "";
+                alturaMax = "";
+            }
+        %>
         <form action="tiro" method="post">
-            <p><label for="velocidad">Velocidad( m/s ):</label><input type="text" name="velocidad" value="0" id="velocidad"></p>
-            <p><label for="cantidad">Angulo:</label>
-                <select name="angulo" id="angulo">
-                    <option value="0"  selected>0</option>                
-                    <option value="10" >10</option>
-                    <option value="20" >20</option>                            
-                    <option value="30" >30</option>
-                    <option value="40" >40</option>                            
-                    <option value="50" >50</option>                            
-                    <option value="60" >60</option>                           
-                    <option value="70" >70</option>                          
-                    <option value="80" >80</option>                          
-                    <option value="90" >90</option>                           
-                    <option value="100" >100</option>                            
-                    <option value="110" >110</option>
-                    <option value="120" >120</option>
-                    <option value="130" >130</option>
-                    <option value="140" >140</option>
-                    <option value="150" >150</option>
-                    <option value="160" >160</option>
-                    <option value="170" >170</option>
-                    <option value="180" >180</option>
-                </select>
-            <p><input type="submit" value="Tirar"></p>
+            <label for="velocidad">Velocidad(m/s):</label><input type="text" value="<%=velocidad%>" name="velocidad" id="velocidad"><br><br>
+A            <select name="angulo" id="angulo">
+                <% for (int i=0; i<angulo.size();i++) { 
+                String anguloSelected = "";
+                if(angulo.equals(angulo.get(i))){
+                    anguloSelected = "selected";
+                }
+                %>
+                <option value="<%=angulo.get(i)%>" <%=anguloSelected%>><%=angulo.get(i)%></option>
+                <% } %>
+            </select>
+            <input type="submit" value="Lanzar">
+            <% if(distancia != "") { %>
+            <h2>El alcance: <%=distancia%></h2>
+            <% } %>
+            <% if(alturaMax != "") { %>
+            <h2>La altura máxima: <%=alturaMax%></h2>
+            <% } %>
+
         </form>
-
-        <table border="2">
-
-        </table>          
     </body>
 </html>
